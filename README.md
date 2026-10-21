@@ -40,7 +40,7 @@ git clone YOUR_GITHUB_REPOSITORY_URL
 cd smart-cpu-scheduling-simulator
 ```
 
-Replace `YOUR_GITHUB_REPOSITORY_URL` with the URL of your GitHub repository.
+Replace `GITHUB_REPOSITORY_URL` with the URL of your GitHub repository.
 
 ### 2. Create a virtual environment
 
