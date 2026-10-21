@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchedSim | CPU Scheduling Simulator</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="/script.js" defer></script>
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">
+            <span class="brand-icon">S</span>
+            <div>
+                <h1>SchedSim</h1>
+                <p>CPU Scheduling Simulator</p>
+            </div>
+        </div>
+        <span class="status" id="api-status">Checking API...</span>
+    </header>
+
+    <main class="container">
+        <section class="intro">
+            <p class="eyebrow">OPERATING SYSTEMS LAB</p>
+            <h2>Visualize CPU Scheduling</h2>
+            <p>Run scheduling algorithms, analyze performance, and explore process execution.</p>
+        </section>
+
+        <section class="panel">
+            <div class="section-heading">
+                <div>
+                    <h2>Process Workload</h2>
+                    <p>Add processes and configure your simulation.</p>
+                </div>
+                <button type="button" id="add-process" class="button secondary">
+                    + Add Process
+                </button>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Process ID</th>
+                            <th>Arrival Time</th>
+                            <th>Burst Time</th>
+                            <th>Priority</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="process-table">
+                        <!-- JavaScript will insert process rows here. -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="saved-workloads">
+                <div class="field">
+                    <label for="saved-workload">Saved Workloads</label>
+                    <select id="saved-workload">
+                        <option value="">Loading saved workloads...</option>
+                    </select>
+                </div>
+
+                <button type="button" id="load-workload" class="button secondary">
+                    Load Workload
+                </button>
+            </div>
+            
+
+            <div class="settings">
+                <div class="field">
+                    <label for="workload-name">Workload Name</label>
+                    <input id="workload-name" type="text"
+                           value="My Workload" maxlength="100">
+                </div>
+
+                <div class="field">
+                    <label for="algorithm">Scheduling Algorithm</label>
+                    <select id="algorithm">
+                        <option value="FCFS">FCFS</option>
+                        <option value="SJF">SJF (Non-preemptive)</option>
+                        <option value="SRTF">SRTF (Preemptive)</option>
+                        <option value="Priority">Priority (Non-preemptive)</option>
+                        <option value="Round Robin">Round Robin</option>
+                    </select>
+                </div>
+
+                <div class="field" id="quantum-field" hidden>
+                    <label for="quantum">Time Quantum</label>
+                    <input id="quantum" type="number" min="1" step="1" value="2">
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="button" id="run-simulation" class="button primary">
+                    Run Simulation
+                </button>
+                <button type="button" id="reset-processes" class="button secondary">
+                    Reset Processes
+                </button>
+            </div>
+
+            <p id="message" class="message" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="panel" id="results-panel">
+            <div class="section-heading">
+                <div>
+                    <h2>Simulation Results</h2>
+                    <p>Execution timeline and process performance metrics.</p>
+                </div>
+            </div>
+
+            <div id="results-placeholder" class="placeholder">
+                Run a simulation to see the Gantt chart and metrics here.
+            </div>
+
+            <div id="results-content" hidden>
+                <h3>CPU Execution Timeline</h3>
+                <div id="gantt-chart" class="gantt-chart"></div>
+
+                <h3>Performance Summary</h3>
+                <div id="metrics" class="metrics"></div>
+
+                <h3>Process Details</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Process</th>
+                                <th>Arrival</th>
+                                <th>Burst</th>
+                                <th>Start</th>
+                                <th>Completion</th>
+                                <th>Turnaround</th>
+                                <th>Waiting</th>
+                                <th>Response</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-table"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="section-heading">
+                <div>
+                    <h2>Simulation History</h2>
+                    <p>Previously saved runs from your MySQL database.</p>
+                </div>
+                
+                <div class="history-actions">
+                    <button
+                        type="button"
+                        id="refresh-history"
+                        class="button secondary"
+                    >
+                        Refresh History
+                    </button>
+
+                    <button
+                        type="button"
+                        id="export-history"
+                        class="button secondary"
+                    >
+                        Export History CSV
+                    </button>
+
+                    <button
+                        type="button"
+                        id="export-process-details"
+                        class="button secondary"
+                    >
+                        Export Process Details CSV
+                    </button>
+                </div>
+                
+                <div class="process-export-controls">
+                    <label for="export-run-id">Select Simulation Run</label>
+
+                    <select id="export-run-id">
+                        <option value="">Select a simulation run</option>
+                    </select>
+                </div>
+
+
+            </div>
+
+            <div id="history-message" class="placeholder">
+                History will appear here after loading.
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Run ID</th>
+                            <th>Workload</th>
+                            <th>Algorithm</th>
+                            <th>Avg. Waiting</th>
+                            <th>Avg. Turnaround</th>
+                            <th>Avg. Response</th>
+                            <th>Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-table"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        SchedSim · Smart CPU Scheduling Simulator · OS + DBMS Project
+    </footer>
+</body>
+</html>
