@@ -36,11 +36,11 @@ Install the following before running the project:
 ### 1. Clone the repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone GITHUB_REPOSITORY_URL
 cd smart-cpu-scheduling-simulator
 ```
 
-Replace `GITHUB_REPOSITORY_URL` with the URL of your GitHub repository.
+Replace `GITHUB_REPOSITORY_URL` with the URL of GitHub repository.
 
 ### 2. Create a virtual environment
 
@@ -126,6 +126,6 @@ smart-cpu-scheduling-simulator/
 
 - Each developer must configure their own MySQL credentials.
 - The database schema creates the tables but does not include existing simulation data.
-- The recommendation system is planned for a future phase.
+
 
 
